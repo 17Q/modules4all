@@ -1,5 +1,5 @@
-'''
-SpeedWatch.io resolveurl plugin
+"""
+Plugin for ResolveUrl
 Copyright (C) 2019 gujal
 
 This program is free software: you can redistribute it and/or modify
@@ -14,14 +14,23 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
-'''
+"""
 
-from __resolve_generic__ import ResolveGeneric
+from resolveurl.plugins.lib import helpers
+from resolveurl.plugins.__resolve_generic__ import ResolveGeneric
+
 
 class SpeedWatchResolver(ResolveGeneric):
     name = "speedwatch"
     domains = ["speedwatch.io"]
-    pattern = r'(?://|\.)(speedwatch\.io)/plyr/([0-9a-zA-Z]+)'
+    pattern = r'(?://|\.)(speedwatch\.io)/(?:plyr|e|play-embed|file)/([0-9a-zA-Z]+)'
+
+    def get_media_url(self, host, media_id):
+        return helpers.get_media_url(self.get_url(host, media_id),
+                                     patterns=[r'''href="(?P<url>[^"]+).*?>Download''',
+                                               r'''sources\s*:\s*\["(?P<url>[^"]+)''',
+                                               r'''id="videolink">(?P<url>[^<]+)'''],
+                                     generic_patterns=False)
 
     def get_url(self, host, media_id):
-        return self._default_get_url(host, media_id, template='https://www.{host}/plyr/{media_id}.html')
+        return self._default_get_url(host, media_id, template='https://www.{host}/play-embed/{media_id}.html')
