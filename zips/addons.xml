@@ -327,6 +327,24 @@
   </extension>
 </addon>
 
+<addon id="script.module.musicbrainz"
+       name="Musicbrainz NGS webservice python bindings"
+       version="0.7.0"
+       provider-name="marcelveldt and others">
+  <requires>
+	<import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary>Python bindings for Musicbrainz' NGS webservice</summary>
+    <description>Kodi module library for the Python bindings for Musicbrainz' NGS webservice developed by alastair.</description>
+    <license>GNU GENERAL PUBLIC LICENSE V3</license>
+    <source>https://github.com/kodi-community-addons/script.module.musicbrainz</source>
+    <platform>all</platform>
+  </extension>
+</addon>
+
 <addon id="script.module.myconnpy"
        name="MySQL Connector/Python"
        version="1.1.7"
@@ -561,6 +579,27 @@
     <platform>all</platform>
     <license>MIT</license>
   </extension>
+</addon>
+
+<addon id="script.module.thetvdb"
+       name="The TVDB API v2"
+       version="1.0.29"
+       provider-name="marcelveldt and others">
+    <requires>
+		<import addon="xbmc.python" version="3.0.0"/>
+        <import addon="script.module.requests" version="2.9.1"/>
+        <import addon="script.module.simplejson" version="3.17.0"/>
+        <import addon="script.module.simplecache" version="2.0.2"/>
+        <import addon="script.module.arrow" version="0.15.5"/>
+    </requires>
+    <extension point="xbmc.python.module" library="lib" />
+    <extension point="xbmc.addon.metadata">
+        <summary>TheTVDB API v2 python module for Kodi</summary>
+        <description>TheTVDB API v3 python module for Kodi</description>
+        <license>Apache 2.0</license>
+        <source>https://github.com/kodi-community-addons/script.module.thetvdb</source>
+        <platform>all</platform>
+    </extension>
 </addon>
 
 <addon id="script.module.tulip" name="Tulip Routine Libraries" version="1.0.8" provider-name="Twilight0">
