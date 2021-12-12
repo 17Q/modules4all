@@ -329,14 +329,14 @@
 
 <addon id="script.module.metadatautils"
        name="Metadata and Artwork module"
-       version="1.0.0"
+       version="1.0.42"
        provider-name="marcelveldt and others">
     <requires>
 		<import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.requests" version="2.9.1"/>
         <import addon="script.module.beautifulsoup4" version="4.9.3" />
-        <import addon="script.module.thetvdb" version="1.0.12" />
-        <import addon="script.module.musicbrainz" version="0.6.0"/>
+        <import addon="script.module.thetvdb" version="1.0.29" />
+        <import addon="script.module.musicbrainz" version="0.7.0"/>
         <import addon="script.module.simplecache" version="2.0.2"/>
         <import addon="script.module.arrow" version="0.15.5"/>
     </requires>
@@ -421,7 +421,7 @@ v1.0.25 (marcelveldt)
 
 <addon id="script.module.musicbrainz"
        name="Musicbrainz NGS webservice python bindings"
-       version="0.6.0"
+       version="0.7.0"
        provider-name="marcelveldt and others">
   <requires>
 	<import addon="xbmc.python" version="3.0.0"/>
@@ -703,7 +703,7 @@ v1.0.25 (marcelveldt)
 
 <addon id="script.module.thetvdb"
        name="The TVDB API v2"
-       version="1.0.12"
+       version="1.0.29"
        provider-name="marcelveldt and others">
     <requires>
 		<import addon="xbmc.python" version="3.0.0"/>
