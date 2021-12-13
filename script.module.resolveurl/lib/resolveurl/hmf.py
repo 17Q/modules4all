@@ -248,9 +248,8 @@ class HostedMediaFile:
 
         try:
             import ssl
-            ssl_context = ssl.create_default_context()
-            ssl_context.check_hostname = False
-            ssl_context.verify_mode = ssl.CERT_NONE
+            ssl_context = ssl._create_unverified_context()
+            ssl._create_default_https_context = ssl._create_unverified_context
             opener = urllib_request.build_opener(urllib_request.HTTPSHandler(context=ssl_context))
             urllib_request.install_opener(opener)
         except:
@@ -284,7 +283,7 @@ class HostedMediaFile:
         except Exception as e:
             http_code = 601
             msg = str(e)
-            if msg == "''":
+            if msg == "''" or 'timed out' in msg:
                 http_code = 504
 
         # added this log line for now so that we can catch any logs on streams that are rejected due to test_stream failures
@@ -293,6 +292,9 @@ class HostedMediaFile:
             common.logger.log_warning('Stream UrlOpen Failed: Url: %s HTTP Code: %s Msg: %s' % (stream_url, http_code, msg))
 
         return int(http_code) < 400 or int(http_code) == 504
+
+    def __bool__(self):
+        return self.__nonzero__()
 
     def __nonzero__(self):
         if self._valid_url is None:

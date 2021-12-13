@@ -1,14 +1,19 @@
-Version 5.1.24 (February 9, 2021)
+Version 5.1.54 (Dec 12, 2021)
 - Code Base Changes:
     - None
 
 - Resolvers Added:
-    - megaup.net
+    - hexupload
+    - hxfile
+    - racaty
  
 - Resolvers Fixed/Updated:
-    - gofile
-    - tvlogy
-
+    - fembed
+    - myfeminist
+    - streamingcommunity
+    - streamsb
+    - vidbom
+    - vlalanet
 
 - Resolvers Removed
     - None
