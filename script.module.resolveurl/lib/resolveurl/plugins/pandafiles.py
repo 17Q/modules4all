@@ -16,14 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from resolveurl.plugins.lib import helpers
+import re
+from resolveurl.lib import helpers
 from resolveurl import common
 from resolveurl.resolver import ResolveUrl, ResolverError
-import re
 
 
 class PandaFilesResolver(ResolveUrl):
-    name = "pandafiles"
+    name = "PandaFiles"
     domains = ['pandafiles.com']
     pattern = r'(?://|\.)(pandafiles\.com)/([0-9a-zA-Z]+)'
 
@@ -41,8 +41,9 @@ class PandaFilesResolver(ResolveUrl):
             'method_free': 'Free Download'
         }
         html = self.net.http_POST(web_url, form_data=data, headers=headers).content
-        source = re.search(r'id="direct_link">\s*<a\s*href="([^"]+)', html)
+        source = re.search(r'id="direct_link".*?href="([^"]+)', html, re.S)
         if source:
+            headers.update({'verifypeer': 'false'})
             return source.group(1) + helpers.append_headers(headers)
 
         raise ResolverError('File Not Found or removed')

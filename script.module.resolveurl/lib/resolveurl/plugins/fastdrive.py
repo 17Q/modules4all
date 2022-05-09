@@ -16,45 +16,31 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import json
 import re
+import base64
 from six.moves import urllib_parse
-from resolveurl.plugins.lib import helpers
+from resolveurl.lib import helpers
 from resolveurl import common
 from resolveurl.resolver import ResolveUrl, ResolverError
 
 
-class FastdriveResolver(ResolveUrl):
-    name = "fastdrive"
+class FastDriveResolver(ResolveUrl):
+    name = "FastDrive"
     domains = ['fastdrive.io']
     pattern = r'(?://|\.)(fastdrive\.io)/([0-9a-zA-Z]+)'
 
     def get_media_url(self, host, media_id):
         web_url = self.get_url(host, media_id)
-        rurl = 'https://{0}/'.format(host)
+        rurl = urllib_parse.urljoin(web_url, '/')
         headers = {'User-Agent': common.FF_USER_AGENT,
                    'Referer': rurl}
         html = self.net.http_GET(web_url, headers=headers).content
-        r = re.search("href='([^']+).+?GET LINK", html)
+        r = re.search(r"btn--primary'\s*href='([^']+)", html)
         if r:
-            g = self.net.http_GET(r.group(1), headers=headers)
-            html = g.content
-            gp = urllib_parse.urlparse(g.get_url())
-            data = helpers.get_hidden(html)
-            headers.update({
-                'Origin': '{0}://{1}'.format(gp.scheme, gp.netloc),
-                'Referer': g.get_url(),
-                'X-Requested-With': 'XMLHttpRequest'
-            })
-            purl = re.findall('<form.+?action="([^"]+)', html)[0]
-            if purl.startswith('/'):
-                purl = '{0}://{1}{2}'.format(gp.scheme, gp.netloc, purl)
             common.kodi.sleep(5000)
-            html = self.net.http_POST(purl, form_data=data, headers=headers).content
-            jd = json.loads(html)
-            if jd.get('status') == "success":
-                headers.pop('X-Requested-With')
-                return jd.get('url') + helpers.append_headers(headers)
+            query = urllib_parse.parse_qsl(urllib_parse.urlparse(r.group(1)).query)
+            source = base64.b64decode(query[0][1]).decode('utf-8')
+            return source + helpers.append_headers(headers)
 
         raise ResolverError('File Not Found or removed')
 

@@ -17,18 +17,19 @@
 import re
 from resolveurl import common
 from resolveurl.resolver import ResolveUrl, ResolverError
-from resolveurl.plugins.lib import helpers
+from resolveurl.lib import helpers
 
 
-class MixdropResolver(ResolveUrl):
-    name = "mixdrop"
-    domains = ["mixdrop.co", "mixdrop.to", "mixdrop.sx", "mixdrop.bz"]
-    pattern = r'(?://|\.)(mixdrop\.(?:co|to|sx|bz))/(?:f|e)/(\w+)'
+class MixDropResolver(ResolveUrl):
+    name = "MixDrop"
+    domains = ["mixdrop.co", "mixdrop.to", "mixdrop.sx", "mixdrop.bz", "mixdrop.ch"]
+    pattern = r'(?://|\.)(mixdrop\.(?:c[ho]|to|sx|bz))/(?:f|e)/(\w+)'
 
     def get_media_url(self, host, media_id):
         web_url = self.get_url(host, media_id)
-        headers = {'Origin': 'https://{}'.format(host),
-                   'Referer': 'https://{}/'.format(host),
+        rurl = 'https://{}/'.format(host)
+        headers = {'Origin': rurl[:-1],
+                   'Referer': rurl,
                    'User-Agent': common.RAND_UA}
         html = self.net.http_GET(web_url, headers=headers).content
         r = re.search(r'location\s*=\s*"([^"]+)', html)
@@ -39,8 +40,12 @@ class MixdropResolver(ResolveUrl):
             html = helpers.get_packed_data(html)
         r = re.search(r'(?:vsr|wurl|surl)[^=]*=\s*"([^"]+)', html)
         if r:
-            headers = {'User-Agent': common.RAND_UA, 'Referer': web_url}
-            return "https:" + r.group(1) + helpers.append_headers(headers)
+            surl = r.group(1)
+            if surl.startswith('//'):
+                surl = 'https:' + surl
+            headers.pop('Origin')
+            headers.update({'Referer': web_url})
+            return surl + helpers.append_headers(headers)
 
         raise ResolverError("Video not found")
 

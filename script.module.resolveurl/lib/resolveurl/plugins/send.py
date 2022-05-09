@@ -17,16 +17,16 @@
 """
 
 from resolveurl.plugins.__resolve_generic__ import ResolveGeneric
-from resolveurl.plugins.lib import helpers
+from resolveurl.lib import helpers
 
 
 class SendResolver(ResolveGeneric):
-    name = 'send.cm'
-    domains = ['send.cm']
-    pattern = r'(?://|\.)(send\.cm)/([0-9a-zA-Z]+)'
+    name = 'Send'
+    domains = ['send.cm', 'sendit.cloud']
+    pattern = r'(?://|\.)(send(?:it)?\.(?:cm|cloud))/(?:f/embed/)?([0-9a-zA-Z]+)'
 
     def get_media_url(self, host, media_id):
         return helpers.get_media_url(self.get_url(host, media_id), patterns=[r'''source\s*src="(?P<url>[^"]+)'''])
 
     def get_url(self, host, media_id):
-        return self._default_get_url(host, media_id, template='https://{host}/{media_id}')
+        return self._default_get_url(host, media_id, template='https://send.cm/{media_id}')
