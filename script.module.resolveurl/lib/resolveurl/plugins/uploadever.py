@@ -1,5 +1,5 @@
 """
-    Plugin for ResolveUrl
+    Plugin for ResolveURL
     Copyright (C) 2022 shellc0de
 
     This program is free software: you can redistribute it and/or modify
@@ -9,11 +9,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program. If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import re
@@ -48,7 +48,7 @@ class UploadEverResolver(ResolveUrl):
             return url + helpers.append_headers(headers)
 
         html = r.content
-        url = re.search(r'btn\s*btn-dow"\s*href="(http[^"]+)', html)
+        url = re.search(r'btn\s*btn-dow\s*(?:recaptchav2)?"\s*href="(http[^"]+)', html)
         if url:
             return url.group(1) + helpers.append_headers(headers)
 

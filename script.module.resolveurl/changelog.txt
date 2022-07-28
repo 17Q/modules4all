@@ -1,55 +1,22 @@
-Version 5.1.67 (May 8, 2022)
+Version 5.1.72 (July 18, 2022)
 - Code Base Changes:
-    - lib folders consolidated
+    - fix incorrect firefox UA
+    - fix get_redirect_url function
 
 - Resolvers Added:
     - None
- 
+
 - Resolvers Fixed/Updated:
-    - aparat
-    - avideo
-    - cloudb
-    - mycloud
+    - fembed
     - streamingcommunity
-    - streamrapid
     - streamsb
+    - streamrapid
+    - tubeload
+    - uploadever
+    - voesx
 
 - Resolvers Removed
-    - abcvideo
-    - anavids
-    - datemule
-    - easyload
-    - elupload
-    - gounlimited
-    - hugefiles
-    - mystream
-    - ninjastream
-    - nxload
-    - onlystream
-    - oogly
-    - playtube
-    - putload
-    - sendfox
-    - speedvideo
-    - speedwatch
-    - streamty
-    - streamwire
-    - tunepk
-    - vevio
-    - videobee
-    - videomega
-    - videozupload
-    - vidia
-    - vidlox
-    - viduplayer
-    - vidwatch
-    - vidzi
-    - viuclips
-    - vlaretv
-    - vupto
-    - watchvideo
-    - weshare
-    - wstream
+    - None
 
 - Languages Added/Updated
     - None

@@ -1,7 +1,6 @@
 """
-    Plugin for ResolveUrl
-    Copyright (C) 2020 gujal
-    Copyright (C) 2020 groggyegg
+    Plugin for ResolveURL
+    Copyright (C) 2020 gujal, groggyegg
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -10,11 +9,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program. If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import re
@@ -29,13 +28,15 @@ from resolveurl.resolver import ResolveUrl, ResolverError
 
 
 class StreamSBResolver(ResolveUrl):
-    name = "StreamSB"
-    domains = ["sbembed.com", "sbembed1.com", "sbplay.org", "sbvideo.net", "streamsb.net", "sbplay.one",
-               "cloudemb.com", "playersb.com", "tubesb.com", "sbplay1.com", "embedsb.com", "watchsb.com",
-               "sbplay2.com", "japopav.tv", "viewsb.com", "sbplay2.xyz", "sbfast.com", "sbfull.com"]
+    name = 'StreamSB'
+    domains = ['sbembed.com', 'sbembed1.com', 'sbplay.org', 'sbvideo.net', 'streamsb.net', 'sbplay.one',
+               'cloudemb.com', 'playersb.com', 'tubesb.com', 'sbplay1.com', 'embedsb.com', 'watchsb.com',
+               'sbplay2.com', 'japopav.tv', 'viewsb.com', 'sbplay2.xyz', 'sbfast.com', 'sbfull.com',
+               'javplaya.com', 'ssbstream.net', 'p1ayerjavseen.com', 'sbthe.com']
     pattern = r'(?://|\.)(' \
-              r'(?:view|watch|embed|tube|player|cloudemb|japopav|stream)?s?b?(?:embed\d?|play\d?|video|fast|full)?\.' \
-              r'(?:com|net|org|one|tv|xyz))/(?:embed-|e/|play/|d/|sup/)?([0-9a-zA-Z]+)'
+              r'(?:view|watch|embed|tube|player|cloudemb|japopav|javplaya|p1ayerjavseen|stream)?s{0,2}b?' \
+              r'(?:embed\d?|play\d?|video|fast|full|stream|the)?\.(?:com|net|org|one|tv|xyz))/' \
+              r'(?:embed[-/]|e/|play/|d/|sup/)?([0-9a-zA-Z]+)'
 
     def get_media_url(self, host, media_id):
         web_url = self.get_url(host, media_id)
@@ -47,8 +48,8 @@ class StreamSBResolver(ResolveUrl):
         if sources:
             sources.sort(key=lambda x: int(x[1]), reverse=True)
             sources = [(x[1] + 'p', x[0]) for x in sources]
-            code, mode, hash = eval(helpers.pick_source(sources))
-            dl_url = 'https://{0}/dl?op=download_orig&id={1}&mode={2}&hash={3}'.format(host, code, mode, hash)
+            code, mode, dl_hash = eval(helpers.pick_source(sources))
+            dl_url = 'https://{0}/dl?op=download_orig&id={1}&mode={2}&hash={3}'.format(host, code, mode, dl_hash)
             html = self.net.http_GET(dl_url, headers=headers).content
             domain = base64.b64encode((rurl[:-1] + ':443').encode('utf-8')).decode('utf-8').replace('=', '')
             token = helpers.girc(html, rurl, domain)
